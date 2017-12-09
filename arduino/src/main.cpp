@@ -1,6 +1,9 @@
 #include <Arduino.h>
 #include <VirtualWire.h>
 
+// #define TX
+#define RX
+
 const int transmit_pin = 2;
 const int receive_pin = 2;
 
@@ -40,7 +43,7 @@ void tx() {
   vw_wait_tx(); // Wait until the whole message is gone
   digitalWrite(LED_BUILTIN, LOW);
   count = count + 1;
-  delay(100);
+  delay(1000);
 }
 
 void rx () {
@@ -61,29 +64,18 @@ void rx () {
   if (vw_get_message(buf, &buflen)) {
   	int i;
     digitalWrite(LED_BUILTIN, HIGH); // Flash a light to show received good message
-  	// Message with a good checksum received, print it.
-  	Serial.print("Got: ");
   	for (i = 0; i < buflen; i++) {
       Serial.print(buf[i], HEX);
-      Serial.print(' ');
   	}
   	Serial.println();
     digitalWrite(LED_BUILTIN, LOW);
-  } else {
-    Serial.println("Invalid message:");
-    int i;
-    for (i = 0; i < buflen; i++) {
-      Serial.print(buf[i], HEX);
-      Serial.print(' ');
-  	}
-    Serial.println(' ');
   }
 }
 
-void setup() {
-  setup_rx_simple();
-}
-
-void loop() {
-  rx_simple();
-}
+#ifdef TX
+void setup() { setup_tx(); }
+void loop() { tx(); }
+#else
+void setup() { setup_rx(); }
+void loop() { rx(); }
+#endif
