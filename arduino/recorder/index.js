@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const SerialPort = require('serialport')
 const pathHelper = require('path')
 const fs = require('fs')

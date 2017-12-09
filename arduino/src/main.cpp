@@ -1,8 +1,13 @@
 #include <Arduino.h>
-#include <Receiver.h>
 
 // #define TX
 #define RX
+
+#ifdef RX
+  #include <Receiver.h>
+#else
+  #include <VirtualWire.h>
+#endif
 
 const int transmit_pin = 2;
 const int receive_pin = 2;
@@ -29,8 +34,13 @@ void setup_rx_simple() {
 
 void rx_simple() {
   int data = digitalRead(receive_pin);
-  Serial.println(data);
-  delay(10);
+  if(data) {
+    Serial.print("1");
+  }
+  else {
+    Serial.print("0");
+  }
+  delay(1);
 }
 
 byte count = 1;
