@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <VirtualWire.h>
+#include <Receiver.h>
 
 // #define TX
 #define RX
