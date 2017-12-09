@@ -88,7 +88,7 @@
 /// \version 1.0 Original release
 ///
 /// \version 1.1 2008-06-24
-/// 	Now can compile for atmega8
+///     Now can compile for atmega8
 ///	Reported by creatrope
 /// \version 1.2 2009-03-30
 ///	Fixed a problem that prevented compiling with arduino-0015
@@ -199,81 +199,81 @@
 // an ISR
 extern "C"
 {
-    /// Set the digital IO pin to be for transmit data.
-    /// This pin will only be accessed if
-    /// the transmitter is enabled
-    /// \param[in] pin The Arduino pin number for transmitting data. Defaults to 12.
-    extern void vw_set_tx_pin(uint8_t pin);
+/// Set the digital IO pin to be for transmit data.
+/// This pin will only be accessed if
+/// the transmitter is enabled
+/// \param[in] pin The Arduino pin number for transmitting data. Defaults to 12.
+extern void vw_set_tx_pin(uint8_t pin);
 
-    /// Set the digital IO pin to be for receive data.
-    /// This pin will only be accessed if
-    /// the receiver is enabled
-    /// \param[in] pin The Arduino pin number for receiving data. Defaults to 11.
-    extern void vw_set_rx_pin(uint8_t pin);
+/// Set the digital IO pin to be for receive data.
+/// This pin will only be accessed if
+/// the receiver is enabled
+/// \param[in] pin The Arduino pin number for receiving data. Defaults to 11.
+extern void vw_set_rx_pin(uint8_t pin);
 
-    // Set the digital IO pin to enable the transmitter (press to talk, PTT)'
-    /// This pin will only be accessed if
-    /// the transmitter is enabled
-    /// \param[in] pin The Arduino pin number to enable the transmitter. Defaults to 10.
-    //extern void vw_set_ptt_pin(uint8_t pin);
+// Set the digital IO pin to enable the transmitter (press to talk, PTT)'
+/// This pin will only be accessed if
+/// the transmitter is enabled
+/// \param[in] pin The Arduino pin number to enable the transmitter. Defaults to 10.
+//extern void vw_set_ptt_pin(uint8_t pin);
 
-    /// By default the PTT pin goes high when the transmitter is enabled.
-    /// This flag forces it low when the transmitter is enabled.
-    /// \param[in] inverted True to invert PTT
-    //extern void vw_set_ptt_inverted(uint8_t inverted);
+/// By default the PTT pin goes high when the transmitter is enabled.
+/// This flag forces it low when the transmitter is enabled.
+/// \param[in] inverted True to invert PTT
+//extern void vw_set_ptt_inverted(uint8_t inverted);
 
-    /// Initialise the VirtualWire software, to operate at speed bits per second
-    /// Call this one in your setup() after any vw_set_* calls
-    /// Must call vw_rx_start() before you will get any messages
-    /// \param[in] speed Desired speed in bits per second
-    extern void vw_setup(uint16_t speed);
+/// Initialise the VirtualWire software, to operate at speed bits per second
+/// Call this one in your setup() after any vw_set_* calls
+/// Must call vw_rx_start() before you will get any messages
+/// \param[in] speed Desired speed in bits per second
+extern void vw_setup(uint16_t speed);
 
-    /// Start the Phase Locked Loop listening to the receiver
-    /// Must do this before you can receive any messages
-    /// When a message is available (good checksum or not), vw_have_message();
-    /// will return true.
-    extern void vw_rx_start();
+/// Start the Phase Locked Loop listening to the receiver
+/// Must do this before you can receive any messages
+/// When a message is available (good checksum or not), vw_have_message();
+/// will return true.
+extern void vw_rx_start();
 
-    /// Stop the Phase Locked Loop listening to the receiver
-    /// No messages will be received until vw_rx_start() is called again
-    /// Saves interrupt processing cycles
-    extern void vw_rx_stop();
+/// Stop the Phase Locked Loop listening to the receiver
+/// No messages will be received until vw_rx_start() is called again
+/// Saves interrupt processing cycles
+extern void vw_rx_stop();
 
-    /// Returns the state of the
-    /// transmitter
-    /// \return true if the transmitter is active else false
-    extern uint8_t vx_tx_active();
+/// Returns the state of the
+/// transmitter
+/// \return true if the transmitter is active else false
+extern uint8_t vx_tx_active();
 
-    /// Block until the transmitter is idle
-    /// then returns
-    extern void vw_wait_tx();
+/// Block until the transmitter is idle
+/// then returns
+extern void vw_wait_tx();
 
-    /// Block until a message is available
-    /// then returns
-    extern void vw_wait_rx();
+/// Block until a message is available
+/// then returns
+extern void vw_wait_rx();
 
-    /// Block until a message is available or for a max time
-    /// \param[in] milliseconds Maximum time to wait in milliseconds.
-    /// \return true if a message is available, false if the wait timed out.
-    extern uint8_t vw_wait_rx_max(unsigned long milliseconds);
+/// Block until a message is available or for a max time
+/// \param[in] milliseconds Maximum time to wait in milliseconds.
+/// \return true if a message is available, false if the wait timed out.
+extern uint8_t vw_wait_rx_max(unsigned long milliseconds);
 
-    /// Send a message with the given length. Returns almost immediately,
-    /// and message will be sent at the right timing by interrupts
-    /// \param[in] buf Pointer to the data to transmit
-    /// \param[in] len Number of octetes to transmit
-    /// \return true if the message was accepted for transmission, false if the message is too long (>VW_MAX_MESSAGE_LEN - 3)
-    extern uint8_t vw_send(uint8_t* buf, uint8_t len);
+/// Send a message with the given length. Returns almost immediately,
+/// and message will be sent at the right timing by interrupts
+/// \param[in] buf Pointer to the data to transmit
+/// \param[in] len Number of octetes to transmit
+/// \return true if the message was accepted for transmission, false if the message is too long (>VW_MAX_MESSAGE_LEN - 3)
+extern uint8_t vw_send(uint8_t* buf, uint8_t len);
 
-    // Returns true if an unread message is available
-    /// \return true if a message is available to read
-    extern inline uint8_t vw_have_message();
+// Returns true if an unread message is available
+/// \return true if a message is available to read
+extern inline uint8_t vw_have_message();
 
-    // If a message is available (good checksum or not), copies
-    // up to *len octets to buf.
-    /// \param[in] buf Pointer to location to save the read data (must be at least *len bytes.
-    /// \param[in,out] len Available space in buf. Will be set to the actual number of octets read
-    /// \return true if there was a message and the checksum was good
-    extern uint8_t vw_get_message(uint8_t* buf, uint8_t* len);
+// If a message is available (good checksum or not), copies
+// up to *len octets to buf.
+/// \param[in] buf Pointer to location to save the read data (must be at least *len bytes.
+/// \param[in,out] len Available space in buf. Will be set to the actual number of octets read
+/// \return true if there was a message and the checksum was good
+extern uint8_t vw_get_message(uint8_t* buf, uint8_t* len);
 }
 
 /// @example client.pde

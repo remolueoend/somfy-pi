@@ -14,7 +14,7 @@ void setup_tx () {
 }
 
 void setup_rx () {
-  Serial.begin(9600);	// Debugging only
+  Serial.begin(9600);
   Serial.println("setup");
   vw_set_rx_pin(receive_pin);
   vw_setup(2000);
@@ -51,31 +51,39 @@ void rx () {
   uint8_t buflen = VW_MAX_MESSAGE_LEN;
 
   /*
-  int msg_rec = vw_wait_rx_max(5000);
-  if(!msg_rec) {
-    Serial.println("No message received in 5000ms");
-    return;
-  } else {
-    Serial.print("Message received");
-    Serial.println(msg_rec);
-  }
-  */
+     int msg_rec = vw_wait_rx_max(5000);
+     if(!msg_rec) {
+     Serial.println("No message received in 5000ms");
+     return;
+     } else {
+     Serial.print("Message received");
+     Serial.println(msg_rec);
+     }
+   */
 
   if (vw_get_message(buf, &buflen)) {
-  	int i;
+    int i;
     digitalWrite(LED_BUILTIN, HIGH); // Flash a light to show received good message
-  	for (i = 0; i < buflen; i++) {
+    for (i = 0; i < buflen; i++) {
       Serial.print(buf[i], HEX);
-  	}
-  	Serial.println();
+    }
+    Serial.println();
     digitalWrite(LED_BUILTIN, LOW);
   }
 }
 
 #ifdef TX
-void setup() { setup_tx(); }
-void loop() { tx(); }
+void setup() {
+  setup_tx();
+}
+void loop() {
+  tx();
+}
 #else
-void setup() { setup_rx(); }
-void loop() { rx(); }
+void setup() {
+  setup_rx();
+}
+void loop() {
+  rx();
+}
 #endif
